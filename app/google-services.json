@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "20281278630",
+    "project_id": "dailybalance-70533",
+    "storage_bucket": "dailybalance-70533.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20281278630:android:cd7e9e19a94d7755a4f467",
+        "android_client_info": {
+          "package_name": "com.example.dailybalance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-LCbnz_NSUQ20rqXK9b1BvIB877oMcnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

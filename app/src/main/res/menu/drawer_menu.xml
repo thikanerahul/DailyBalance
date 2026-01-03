@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_task_list"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Task List" />
+        <item
+            android:id="@+id/nav_food_scanner"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Food Scanner" />
+        <item
+            android:id="@+id/nav_batch_add"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="Add in Batch Mode" />
+    </group>
+
+    <item android:title="Examples">
+        <menu>
+             <item
+                android:id="@+id/nav_remove_ads"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:title="Remove Ads" />
+             <item
+                android:id="@+id/nav_more_apps"
+                android:icon="@android:drawable/ic_menu_view"
+                android:title="More Apps" />
+        </menu>
+    </item>
+
+    <item android:title="Communication">
+        <menu>
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@android:drawable/ic_menu_send"
+                android:title="Send Feedback" />
+            <item
+                android:id="@+id/nav_follow_us"
+                android:icon="@android:drawable/ic_menu_share"
+                android:title="Follow Us" />
+            <item
+                android:id="@+id/nav_invite_friends"
+                android:icon="@android:drawable/ic_menu_my_calendar"
+                android:title="Invite Friends" />
+        </menu>
+    </item>
+
+    <item android:title="General">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Settings" />
+        </menu>
+    </item>
+</menu>

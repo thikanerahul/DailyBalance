@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- UI Brand Colors -->
+    <color name="primary_blue">#4A90E2</color>
+    <color name="primary_purple">#9013FE</color>
+    <color name="accent_cyan">#50E3C2</color>
+    
+    <!-- Light Mode Colors -->
+    <color name="light_background">#F5F5F5</color>
+    <color name="light_surface">#FFFFFF</color>
+    <color name="light_text_primary">#212121</color>
+    <color name="light_text_secondary">#757575</color>
+    
+    <!-- Dark Mode Colors -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_text_primary">#FFFFFF</color>
+    <color name="dark_text_secondary">#B3FFFFFF</color>
+    
+    <!-- Glassmorphism -->
+    <color name="glass_background">#1AFFFFFF</color> <!-- 10% White -->
+    <color name="glass_border">#33FFFFFF</color> <!-- 20% White -->
+    <color name="glass_shadow">#4D000000</color> <!-- 30% Black -->
+    
+    <!-- Text -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B3FFFFFF</color> <!-- 70% White -->
+    
+    <!-- Background Gradient -->
+    <color name="bg_gradient_start">#2b5876</color>
+    <color name="bg_gradient_end">#4e4376</color>
+</resources>

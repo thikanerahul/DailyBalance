@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_glass_card"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Task"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        android:hint="Title"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRecurring"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Repeat Daily"
+        android:textColor="@color/white"
+        android:checked="false"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutTitle"/>
+    
+    <LinearLayout
+        android:id="@+id/dateContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/switchRecurring">
+        
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pick Date"
+            android:layout_marginEnd="8dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+            
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pick Time"
+            android:layout_marginStart="8dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textReminderType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reminder Type:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateContainer"/>
+
+    <CheckBox
+        android:id="@+id/checkNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔔 Show Notification"
+        android:textColor="@color/white"
+        android:checked="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textReminderType"/>
+
+    <CheckBox
+        android:id="@+id/checkAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔊 Play Alarm Sound"
+        android:textColor="@color/white"
+        android:checked="true"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/checkNotification"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Task"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primary_purple"
+        app:layout_constraintTop_toBottomOf="@+id/checkAlarm"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
