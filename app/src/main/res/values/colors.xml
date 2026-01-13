@@ -32,4 +32,10 @@
     <!-- Background Gradient -->
     <color name="bg_gradient_start">#2b5876</color>
     <color name="bg_gradient_end">#4e4376</color>
+    
+    <!-- Theme-aware colors (use these in layouts) -->
+    <color name="text_on_background">@color/white</color>
+    <color name="text_on_background_secondary">#B3FFFFFF</color>
+    <color name="surface_color">@color/light_surface</color>
+    <color name="card_background">@color/glass_background</color>
 </resources>

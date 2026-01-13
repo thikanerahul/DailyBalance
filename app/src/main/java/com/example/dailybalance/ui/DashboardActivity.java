@@ -9,16 +9,17 @@ import com.example.dailybalance.ui.base.BaseActivity;
 import com.example.dailybalance.ui.components.Custom3DProgressBar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-public class DashboardActivity extends BaseActivity { 
+public class DashboardActivity extends BaseActivity {
 
     private DailyViewModel viewModel;
     private TaskAdapter adapter;
     private Custom3DProgressBar productivityRing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Apply saved theme before super.onCreate
         applyTheme();
-        
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
@@ -58,8 +59,10 @@ public class DashboardActivity extends BaseActivity {
 
         viewModel.getAllTasks().observe(this, tasks -> {
             adapter.setTasks(tasks);
-            // Update productivity ring based on tasks
-            updateProductivity(tasks);
+        });
+
+        viewModel.getProductivityPercentage().observe(this, percent -> {
+            productivityRing.setProgress(percent);
         });
 
         adapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
@@ -171,6 +174,14 @@ public class DashboardActivity extends BaseActivity {
         com.google.firebase.auth.FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance()
                 .getCurrentUser();
         if (user != null) {
+            android.content.SharedPreferences prefs = getSharedPreferences("DailyBalancePrefs", MODE_PRIVATE);
+            String cachedName = prefs.getString("user_name_" + user.getUid(), null);
+
+            if (cachedName != null) {
+                String firstName = cachedName.split(" ")[0];
+                textGreeting.setText(timeGreeting + ",\n" + firstName);
+            }
+
             com.google.firebase.firestore.FirebaseFirestore.getInstance()
                     .collection("users")
                     .document(user.getUid())
@@ -179,7 +190,10 @@ public class DashboardActivity extends BaseActivity {
                         if (documentSnapshot.exists()) {
                             String name = documentSnapshot.getString("name");
                             if (name != null && !name.isEmpty()) {
-                                // Extract First Name ("Rahul Thikane" -> "Rahul")
+                                // Update Cache
+                                prefs.edit().putString("user_name_" + user.getUid(), name).apply();
+
+                                // Update UI if changed
                                 String firstName = name.split(" ")[0];
                                 textGreeting.setText(timeGreeting + ",\n" + firstName);
                             } else {
@@ -189,81 +203,72 @@ public class DashboardActivity extends BaseActivity {
                             textGreeting.setText(timeGreeting);
                         }
                     })
-                    .addOnFailureListener(e -> textGreeting.setText(timeGreeting));
+                    .addOnFailureListener(e -> {
+                        if (cachedName == null) {
+                            textGreeting.setText(timeGreeting);
+                        }
+                    });
         } else {
             textGreeting.setText(timeGreeting);
         }
     }
 
-    private void updateProductivity(java.util.List<com.example.dailybalance.data.local.entity.Task> tasks) {
-        if (tasks == null || tasks.isEmpty()) {
-            productivityRing.setProgress(0f);
-            return;
-        }
-        int total = tasks.size();
-        int completed = 0;
-        for (com.example.dailybalance.data.local.entity.Task t : tasks) {
-            if (t.isCompleted)
-                completed++;
-        }
-        float percent = ((float) completed / total) * 100f;
-        productivityRing.setProgress(percent);
-    }
+    // Removed updateProductivity as it's now handled via LiveData observation
 
     private void showThemeDialog() {
-        String[] themes = {"Light Mode", "Dark Mode", "System Default"};
+        String[] themes = { "Light Mode", "Dark Mode", "System Default" };
         int currentMode = getCurrentThemeMode();
-        
+
         new android.app.AlertDialog.Builder(this)
-            .setTitle("Choose Theme")
-            .setSingleChoiceItems(themes, currentMode, (dialog, which) -> {
-                setThemeMode(which);
-                dialog.dismiss();
-                recreate(); // Restart activity to apply theme
-            })
-            .setNegativeButton("Cancel", null)
-            .show();
+                .setTitle("Choose Theme")
+                .setSingleChoiceItems(themes, currentMode, (dialog, which) -> {
+                    setThemeMode(which);
+                    dialog.dismiss();
+                    recreate(); // Restart activity to apply theme
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
-    
+
     private void applyTheme() {
         int mode = getCurrentThemeMode();
         switch (mode) {
             case 0: // Light
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case 1: // Dark
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case 2: // System
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
         }
     }
-    
+
     private int getCurrentThemeMode() {
         android.content.SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
         return prefs.getInt("theme_mode", 2); // Default: System
     }
-    
+
     private void setThemeMode(int mode) {
         android.content.SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
         prefs.edit().putInt("theme_mode", mode).apply();
-        
+
         switch (mode) {
             case 0: // Light
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case 1: // Dark
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case 2: // System
                 androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
-                    androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                        androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
         }
     }

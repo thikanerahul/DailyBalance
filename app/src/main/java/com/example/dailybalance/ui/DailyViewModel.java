@@ -11,6 +11,8 @@ import com.example.dailybalance.data.local.entity.Habit;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import androidx.lifecycle.Transformations;
+import java.util.ArrayList;
 
 public class DailyViewModel extends AndroidViewModel {
 
@@ -36,6 +38,21 @@ public class DailyViewModel extends AndroidViewModel {
 
     public LiveData<List<Task>> getAllTasks() {
         return allTasks;
+    }
+
+    public LiveData<Float> getProductivityPercentage() {
+        return Transformations.map(allTasks, tasks -> {
+            if (tasks == null || tasks.isEmpty()) {
+                return 0f;
+            }
+            int total = tasks.size();
+            int completed = 0;
+            for (Task t : tasks) {
+                if (t.isCompleted)
+                    completed++;
+            }
+            return ((float) completed / total) * 100f;
+        });
     }
 
     public LiveData<List<Task>> getPendingTasks() {
@@ -98,4 +115,3 @@ public class DailyViewModel extends AndroidViewModel {
         });
     }
 }
-

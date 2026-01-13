@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_today"
-            app:tint="@color/white"
+            app:tint="@color/text_on_background"
             android:layout_marginBottom="12dp"/>
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Drink Water"
-            android:textColor="@color/white"
+            android:textColor="@color/text_on_background"
             android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="center"

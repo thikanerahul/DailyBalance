@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Night Mode Specific Colors -->
+    <!-- Override colors that need to be different in dark mode -->
+    
+    <!-- Background Gradient for Dark Mode -->
+    <color name="bg_gradient_start">#1a1a2e</color>
+    <color name="bg_gradient_end">#16213e</color>
+    
+    <!-- Theme-aware text colors (for dark backgrounds) -->
+    <color name="text_on_background">@color/white</color>
+    <color name="text_on_background_secondary">#B3FFFFFF</color>
+    
+    <!-- Surface colors for dark mode -->
+    <color name="surface_color">#1E1E1E</color>
+    <color name="card_background">#2D2D2D</color>
+</resources>

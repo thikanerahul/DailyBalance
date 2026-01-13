@@ -5,20 +5,27 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import com.example.dailybalance.data.local.entity.Task;
 import java.util.Calendar;
 
 public class AlarmUtils {
+    private static final String TAG = "AlarmUtils";
+    private static final String ACTION_ALARM_PREFIX = "com.example.dailybalance.ALARM_";
 
     public static void scheduleAlarm(Context context, Task task) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        // Set unique action for each task to ensure unique PendingIntent
+        intent.setAction(ACTION_ALARM_PREFIX + task.id);
         intent.putExtra("TITLE", task.title);
         intent.putExtra("TASK_ID", task.id);
         intent.putExtra("IS_RECURRING", task.isRecurring);
         intent.putExtra("ENABLE_NOTIFICATION", task.enableNotification);
         intent.putExtra("ENABLE_ALARM", task.enableAlarm);
+
+        Log.d(TAG, "Scheduling alarm for task ID: " + task.id + ", Title: " + task.title);
 
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -46,6 +53,7 @@ public class AlarmUtils {
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         }
+        Log.d(TAG, "Alarm scheduled for task ID: " + task.id + " at time: " + triggerTime);
     }
 
     /**
@@ -55,9 +63,13 @@ public class AlarmUtils {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        // Set unique action for each task to ensure unique PendingIntent
+        intent.setAction(ACTION_ALARM_PREFIX + taskId);
         intent.putExtra("TITLE", title);
         intent.putExtra("TASK_ID", taskId);
         intent.putExtra("IS_RECURRING", true);
+
+        Log.d(TAG, "Rescheduling alarm for task ID: " + taskId + " for next day");
 
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -80,6 +92,7 @@ public class AlarmUtils {
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, nextDayTime, pendingIntent);
         }
+        Log.d(TAG, "Alarm rescheduled for task ID: " + taskId + " at time: " + nextDayTime);
     }
 
     /**
@@ -89,6 +102,10 @@ public class AlarmUtils {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
+        // Set unique action to match the scheduled alarm's PendingIntent
+        intent.setAction(ACTION_ALARM_PREFIX + taskId);
+
+        Log.d(TAG, "Cancelling alarm for task ID: " + taskId);
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             flags |= PendingIntent.FLAG_IMMUTABLE;

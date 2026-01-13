@@ -37,7 +37,7 @@
                 android:text="Create Account"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/text_on_background"
                 android:layout_marginBottom="24dp"
                 android:layout_gravity="center_horizontal"/>
 
@@ -53,7 +53,7 @@
                     android:id="@+id/inputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_on_background"
                     android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +69,7 @@
                     android:id="@+id/inputPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_on_background"
                     android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
                 
@@ -85,7 +85,7 @@
                     android:id="@+id/inputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_on_background"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
             
@@ -94,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:textColorHint="@color/text_secondary"
+                android:textColorHint="@color/text_on_background_secondary"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/white"
+                app:passwordToggleTint="@color/text_on_background"
                 android:layout_marginBottom="24dp">
                 
                 <com.google.android.material.textfield.TextInputEditText
@@ -123,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Already have an account? Login"
-        android:textColor="@color/white"
+        android:textColor="@color/text_on_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

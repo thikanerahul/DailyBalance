@@ -89,9 +89,12 @@ public class DietActivity extends AppCompatActivity {
         }
 
         String gender = ((RadioButton) findViewById(genderId)).getText().toString().toLowerCase();
-        String goal = ((RadioButton) findViewById(goalId)).getText().toString().toLowerCase().contains("bulk") ? "bulk" : "loss";
+        String goal = ((RadioButton) findViewById(goalId)).getText().toString().toLowerCase().contains("bulk") ? "bulk"
+                : "loss";
         String activity = getActivityLevel(activityId);
-        String dietType = ((RadioButton) findViewById(dietTypeId)).getText().toString().toLowerCase().contains("veg") ? "veg" : "non_veg";
+        String dietType = ((RadioButton) findViewById(dietTypeId)).getText().toString().toLowerCase().contains("veg")
+                ? "veg"
+                : "non_veg";
         String workoutTime = getWorkoutTime(workoutTimeId);
 
         DietProfile profile = new DietProfile(weight, height, goal, age, gender, activity, dietType, workoutTime);
@@ -117,18 +120,24 @@ public class DietActivity extends AppCompatActivity {
     private String getActivityLevel(int activityId) {
         RadioButton rb = findViewById(activityId);
         String text = rb.getText().toString().toLowerCase();
-        if (text.contains("sedentary")) return "sedentary";
-        if (text.contains("light")) return "light";
-        if (text.contains("moderate")) return "moderate";
-        if (text.contains("active") && !text.contains("very")) return "active";
+        if (text.contains("sedentary"))
+            return "sedentary";
+        if (text.contains("light"))
+            return "light";
+        if (text.contains("moderate"))
+            return "moderate";
+        if (text.contains("active") && !text.contains("very"))
+            return "active";
         return "very_active";
     }
 
     private String getWorkoutTime(int workoutTimeId) {
         RadioButton rb = findViewById(workoutTimeId);
         String text = rb.getText().toString().toLowerCase();
-        if (text.contains("morning")) return "morning";
-        if (text.contains("afternoon")) return "afternoon";
+        if (text.contains("morning"))
+            return "morning";
+        if (text.contains("afternoon"))
+            return "afternoon";
         return "evening";
     }
 
@@ -137,7 +146,7 @@ public class DietActivity extends AppCompatActivity {
 
         // Calculate BMI
         float bmi = profile.weight / ((profile.height / 100) * (profile.height / 100));
-        
+
         textCalories.setText(String.format("%.0f kcal/day", profile.targetCalories));
         textProtein.setText(String.format("%.0f g/day", profile.targetProtein));
         textCarbs.setText(String.format("%.0f g/day", profile.targetCarbs));
@@ -152,155 +161,154 @@ public class DietActivity extends AppCompatActivity {
     private String generateDietPlan(DietProfile profile) {
         StringBuilder plan = new StringBuilder();
         boolean isVeg = profile.dietType.equals("veg");
-        String proteinSource = isVeg ? "Paneer/Tofu" : "Chicken/Fish";
-        String meatOption = isVeg ? "Soya Chunks" : "Lean Meat";
-        
+
+        // Calculate scale factor based on standard 2000kcal diet
+        // If target is 3000, portions will be 1.5x
+        float scale = profile.targetCalories / 2000.0f;
+        if (scale < 0.6f)
+            scale = 0.6f; // Minimum portion limit
+
+        // Helper to format quantities
+        String meatQty = String.format("%.0fg", 200 * scale);
+        String paneerQty = String.format("%.0fg", 200 * scale);
+        String riceQty = String.format("%.1f cups", 2 * scale);
+        String riceSmallQty = String.format("%.1f cups", 1.5 * scale);
+        String oatsQty = String.format("%.1f cup", 0.5 * scale);
+        String eggQty = String.format("%.0f", 6 * scale); // 4 whole + 2 whites approx
+
+        plan.append(isVeg ? "🌱 VEGETARIAN DIET\n" : "🍗 NON-VEGETARIAN DIET\n");
+        plan.append(String.format("Daily Target: %.0f kcal\n\n", profile.targetCalories));
+
         if (profile.goal.equals("bulk")) {
-            plan.append("🏋️ MUSCLE GAIN DIET PLAN\n");
-            plan.append(isVeg ? "🌱 VEGETARIAN\n\n" : "🍗 NON-VEGETARIAN\n\n");
-            
+            plan.append("🏋️ MUSCLE GAIN PLAN\n\n");
+
             plan.append("BREAKFAST (7-8 AM):\n");
             if (isVeg) {
-                plan.append("• 4 Whole Eggs + 2 Egg Whites\n");
+                plan.append("• Paneer Bhurji (" + paneerQty + ")\n");
                 plan.append("• 2 Slices Whole Wheat Bread\n");
                 plan.append("• 1 Banana\n");
-                plan.append("• Protein Shake\n\n");
+                plan.append("• 1 Scoop Whey Protein / Large Glass Milk\n\n");
             } else {
-                plan.append("• 4 Whole Eggs + 2 Egg Whites\n");
+                plan.append("• " + eggQty + " Eggs (Scrambled/Boiled)\n");
                 plan.append("• 2 Slices Whole Wheat Bread\n");
                 plan.append("• 1 Banana\n");
-                plan.append("• Protein Shake\n\n");
+                plan.append("• 1 Scoop Whey Protein\n\n");
             }
-            
+
             plan.append("MID-MORNING SNACK (10-11 AM):\n");
-            plan.append("• Handful of Almonds\n");
-            plan.append("• 1 Apple\n");
-            if (isVeg) plan.append("• Peanut Butter\n");
+            plan.append("• Handful of Mixed Nuts (Almonds/Walnuts)\n");
+            plan.append("• 1 Apple/Pear\n");
+            if (isVeg)
+                plan.append("• 1 tbsp Peanut Butter\n");
             plan.append("\n");
-            
+
             plan.append("LUNCH (1-2 PM):\n");
             if (isVeg) {
-                plan.append("• 200g Paneer/Tofu\n");
-                plan.append("• 2 Cups Rice/Roti\n");
-                plan.append("• Dal (Lentils)\n");
+                plan.append("• " + paneerQty + " Paneer/Tofu Curry\n");
+                plan.append("• " + riceQty + " Rice / 3 Chapatis\n");
+                plan.append("• 1 Bowl Yellow Dal\n");
             } else {
-                plan.append("• 200g Chicken/Fish\n");
-                plan.append("• 2 Cups Rice/Pasta\n");
-                plan.append("• Egg Curry\n");
+                plan.append("• " + meatQty + " Chicken Breast/Fish Curry\n");
+                plan.append("• " + riceQty + " Rice / 3 Chapatis\n");
+                plan.append("• 1 Bowl Dal/Legumes\n");
             }
-            plan.append("• Mixed Vegetables\n");
-            plan.append("• Salad\n\n");
-            
-            // Workout time specific meals
+            plan.append("• Mixed Vegetable Sabzi\n");
+            plan.append("• Green Salad\n\n");
+
+            // Workout meals
+            String preWorkout = "• 1 Banana + Black Coffee\n• 1 Slice Bread + Peanut Butter\n\n";
+            String postWorkout = "• 1 Scoop Whey Protein\n• 2 Boiled Potatoes / Sweet Potato\n\n"; // Removed meat
+                                                                                                   // requirement from
+                                                                                                   // immediate post
+                                                                                                   // workout for
+                                                                                                   // universal fit
+
             if (profile.workoutTime.equals("morning")) {
-                plan.append("PRE-WORKOUT (6-7 AM):\n");
-                plan.append("• Banana + Peanut Butter\n");
-                plan.append("• Black Coffee\n\n");
-                
-                plan.append("POST-WORKOUT (9-10 AM):\n");
-                plan.append("• Protein Shake\n");
-                plan.append("• Sweet Potato\n\n");
+                plan.append("PRE-WORKOUT (6-7 AM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (9-10 AM):\n" + postWorkout);
             } else if (profile.workoutTime.equals("afternoon")) {
-                plan.append("PRE-WORKOUT (11-12 PM):\n");
-                plan.append("• Banana + Dates\n");
-                plan.append("• Black Coffee\n\n");
-                
-                plan.append("POST-WORKOUT (3-4 PM):\n");
-                plan.append("• Protein Shake\n");
-                plan.append("• Brown Rice\n\n");
-            } else { // evening
-                plan.append("PRE-WORKOUT (4-5 PM):\n");
-                plan.append("• Banana + Peanut Butter\n");
-                plan.append("• Black Coffee\n\n");
-                
-                plan.append("POST-WORKOUT (6-7 PM):\n");
-                plan.append("• Protein Shake\n");
-                plan.append("• Sweet Potato\n\n");
+                plan.append("PRE-WORKOUT (3-4 PM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (5-6 PM):\n" + postWorkout);
+            } else {
+                plan.append("PRE-WORKOUT (5-6 PM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (7-8 PM):\n" + postWorkout);
             }
-            
+
             plan.append("DINNER (8-9 PM):\n");
             if (isVeg) {
-                plan.append("• 200g Paneer/Soya\n");
-                plan.append("• 1.5 Cups Rice/Roti\n");
+                plan.append("• Soya Chunks/Paneer (" + paneerQty + ")\n");
+                plan.append("• " + riceSmallQty + " Rice / 2 Chapatis\n");
             } else {
-                plan.append("• 200g Chicken/Fish\n");
-                plan.append("• 1.5 Cups Rice\n");
+                plan.append("• " + meatQty + " Grilled Chicken/Fish\n");
+                plan.append("• " + riceSmallQty + " Rice / 2 Chapatis\n");
             }
-            plan.append("• Vegetables\n\n");
-            
+            plan.append("• Green Salad\n\n");
+
             plan.append("BEFORE BED:\n");
-            plan.append(isVeg ? "• Casein Protein/Paneer\n" : "• Casein Protein/Greek Yogurt\n");
-            
-        } else { // Fat Loss
-            plan.append("🔥 FAT LOSS DIET PLAN\n");
-            plan.append(isVeg ? "🌱 VEGETARIAN\n\n" : "🍗 NON-VEGETARIAN\n\n");
-            
+            plan.append(isVeg ? "• 1 Glass Warm Milk with Turmeric\n" : "• Casein Protein / 1 Glass Milk\n");
+
+        } else { // FAT LOSS
+            plan.append("🔥 FAT LOSS PLAN\n\n");
+
             plan.append("BREAKFAST (7-8 AM):\n");
-            plan.append("• 3 Egg Whites + 1 Whole Egg\n");
-            plan.append("• Oatmeal (1/2 cup)\n");
-            plan.append("• Green Tea\n\n");
-            
-            plan.append("MID-MORNING SNACK (10-11 AM):\n");
             if (isVeg) {
-                plan.append("• Sprouts\n");
-                plan.append("• Berries\n\n");
+                plan.append("• Moong Dal Chilla (2-3 pcs) with Mint Chutney\n");
+                plan.append("• " + oatsQty + " Milk Oats (No Sugar)\n");
+                plan.append("• Green Tea\n\n");
             } else {
-                plan.append("• Greek Yogurt\n");
-                plan.append("• Berries\n\n");
+                plan.append("• 3 Egg Whites + 1 Whole Egg Omelette\n");
+                plan.append("• " + oatsQty + " Masala Oats\n");
+                plan.append("• Green Tea\n\n");
             }
-            
+
+            plan.append("MID-MORNING SNACK (10-11 AM):\n");
+            plan.append("• 1 Bowl Watermelon/Papaya\n");
+            plan.append("• 5-6 Almonds\n\n");
+
             plan.append("LUNCH (1-2 PM):\n");
             if (isVeg) {
-                plan.append("• 150g Paneer/Tofu\n");
-                plan.append("• 1 Cup Brown Rice\n");
-                plan.append("• Dal\n");
+                plan.append("• " + paneerQty + " Paneer Tikka/Salad\n");
+                plan.append("• 1 Cup Brown Rice / 1 Multigrain Roti\n");
+                plan.append("• 1 Bowl Dal Tadka (Less Oil)\n");
             } else {
-                plan.append("• 150g Grilled Chicken/Fish\n");
-                plan.append("• 1 Cup Brown Rice\n");
-                plan.append("• Boiled Eggs\n");
+                plan.append("• " + meatQty + " Grilled Chicken Salad\n");
+                plan.append("• 1 Cup Brown Rice / 1 Multigrain Roti\n");
             }
-            plan.append("• Large Salad\n");
-            plan.append("• Vegetables\n\n");
-            
-            // Workout time specific meals
+            plan.append("• Cucumber Raita\n\n");
+
+            // Workout meals
+            String preWorkout = "• 1 Apple + Black Coffee\n\n";
+            String postWorkout = "• 1 Scoop Whey Protein in Water\n\n";
+
             if (profile.workoutTime.equals("morning")) {
-                plan.append("PRE-WORKOUT (6-7 AM):\n");
-                plan.append("• Black Coffee\n");
-                plan.append("• 5 Almonds\n\n");
-                
-                plan.append("POST-WORKOUT (9-10 AM):\n");
-                plan.append("• Protein Shake\n\n");
+                plan.append("PRE-WORKOUT (6-7 AM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (8-9 AM):\n" + postWorkout);
             } else if (profile.workoutTime.equals("afternoon")) {
-                plan.append("AFTERNOON SNACK (3-4 PM):\n");
-                plan.append("• Protein Shake\n");
-                plan.append("• 10 Almonds\n\n");
-            } else { // evening
-                plan.append("AFTERNOON SNACK (4-5 PM):\n");
-                plan.append("• Protein Shake\n");
-                plan.append("• 10 Almonds\n\n");
+                plan.append("PRE-WORKOUT (3-4 PM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (5-6 PM):\n" + postWorkout);
+            } else {
+                plan.append("PRE-WORKOUT (5-6 PM):\n" + preWorkout);
+                plan.append("POST-WORKOUT (7-8 PM):\n" + postWorkout);
             }
-            
+
             plan.append("DINNER (7-8 PM):\n");
             if (isVeg) {
-                plan.append("• 150g Paneer/Tofu\n");
-                plan.append("• Lots of Vegetables\n");
-                plan.append("• Small portion Quinoa\n\n");
+                plan.append("• 1 Bowl Stir-fry Tofu/Mushrooms\n");
+                plan.append("• Large Bowl Soup (Tomato/Spinach)\n");
+                plan.append("• No Rice/Roti (Low Carb)\n\n");
             } else {
-                plan.append("• 150g Grilled Chicken/Fish\n");
-                plan.append("• Lots of Vegetables\n");
-                plan.append("• Small portion Quinoa\n\n");
+                plan.append("• " + meatQty + " Grilled Fish/Chicken\n");
+                plan.append("• Large Bowl Clear Soup\n");
+                plan.append("• Steamed Broccoli\n\n");
             }
-            
+
             plan.append("TIPS:\n");
-            plan.append("• Drink 3-4L water daily\n");
-            plan.append("• Avoid sugar & processed foods\n");
-            plan.append("• Sleep 7-8 hours\n");
-            if (isVeg) {
-                plan.append("• Take B12 supplement\n");
-                plan.append("• Include variety of protein sources\n");
-            }
+            plan.append("• Drink 4L Water Daily\n");
+            plan.append("• 10k Steps Walk Daily\n");
+            plan.append("• ZERO Sugar\n");
+            plan.append("• Sleep 7-8 Hours\n");
         }
-        
+
         return plan.toString();
     }
 }

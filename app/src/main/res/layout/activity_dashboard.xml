@@ -41,7 +41,7 @@
                         android:layout_height="48dp"
                         android:src="@android:drawable/ic_dialog_map"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="@color/white"
+                        app:tint="@color/text_on_background"
                         android:layout_marginEnd="8dp"/>
 
                     <TextView
@@ -52,7 +52,7 @@
                         android:text="Good Morning"
                         android:textSize="32sp"
                         android:textStyle="bold"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/text_on_background"/>
                         
                     <ImageButton
                         android:id="@+id/btnDiet"
@@ -60,7 +60,7 @@
                         android:layout_height="48dp"
                         android:src="@android:drawable/ic_menu_agenda"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="@color/white"
+                        app:tint="@color/text_on_background"
                         android:layout_marginEnd="8dp"/>
 
                     <ImageButton
@@ -69,7 +69,7 @@
                         android:layout_height="48dp"
                         android:src="@android:drawable/ic_menu_month"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="@color/white"
+                        app:tint="@color/text_on_background"
                         android:layout_marginEnd="8dp"/>
 
                     <ImageButton
@@ -78,7 +78,7 @@
                         android:layout_height="48dp"
                         android:src="@android:drawable/ic_menu_sort_by_size"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="@color/white" />
+                        app:tint="@color/text_on_background" />
                 </LinearLayout>
 
                 <!-- 3D Productivity Ring Card -->
@@ -102,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="70% Productivity"
-                            android:textColor="@color/white"
+                            android:textColor="@color/text_on_background"
                             android:textSize="18sp"
                             android:layout_marginTop="16dp"/>
                     </LinearLayout>
@@ -115,7 +115,7 @@
                     android:text="Habit Streaks"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_on_background"
                     android:layout_marginBottom="12dp"/>
 
                 <!-- Habit RecyclerView -->
@@ -135,7 +135,7 @@
                     android:text="Upcoming Tasks"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_on_background"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- List Placeholder -->
